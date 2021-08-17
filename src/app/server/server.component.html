@@ -1,0 +1,70 @@
+<!--
+  Examples of databinding
+  Databinding: Can be translate as comunication. This way components comunicate
+  with html templates.
+-->
+
+<h2 style="text-align: center;">Server component</h2>
+
+<div class="container">
+
+  <div class="column">
+    <!--String interpolation-->
+    <!-- It needs a string value or something that brings back a string value -->
+    <p>Server {{ 'Server' }} with ID: {{ serverId }} is {{ getServerStatus() }}</p>
+
+
+    <!--Property binding-->
+    <!-- Using html properties we change values to elements -->
+    <button [disabled]='allowComponent'>Add new component</button>
+
+    <!--Any htmlElement property is allowed-->
+    <p [innerText]='allowComponent'></p>
+
+    <!--Event binding -->
+    <!--Reacting to events -->
+    <button [disabled]='!allowComponent' (click)='onCreateServer()'>Add new component
+    </button>
+
+    <p>{{ serverCreationStatus }}</p>
+
+    <!--$event is data from event-->
+    <input type="text" (input)='onUpdateServerName($event)'>
+
+    <p>{{ serverName }}</p>
+
+    <!--Two ways databiding-->
+    <!--Information gets updated in both directions, element and server component-->
+    <input type="text" [(ngModel)]='serverName'>
+  </div>
+
+  <div class="column">
+    <input
+      type="text"
+      [(ngModel)]='userName'
+      (input)='onUpdateUserName()'
+    >
+    <p>{{ userName }}</p>
+
+    <button [disabled]='isEmpty' (click)='resetUser()'>Reset</button>
+  </div>
+</div>
+
+<hr>
+
+<button (click)='onCreateServer()'>Add new component</button>
+
+<!--ngIf else structural directive-->
+<p *ngIf='serverCreated; else noServer'>Server name is {{ serverName }}</p>
+
+<!--ng-template marks one element to refer-->
+<ng-template #noServer>
+  <p>No server created yet!</p>
+</ng-template>
+
+<!--Adding inline-styles-->
+<p 
+  [ngStyle]='{backgroundColor: getColor()}'
+  [ngClass]="{online: serverStatus === 'online'}"
+>Server is {{ serverStatus }}
+</p>
